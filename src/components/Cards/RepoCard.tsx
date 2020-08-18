@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardDetails, Avatar } from '../index';
+import { CardDetails, UserProfile } from '../index';
 import { CardsProps } from '../../@types/components';
 
 const RepoCard = ({ item }:CardsProps) =>  {
@@ -13,7 +13,7 @@ const RepoCard = ({ item }:CardsProps) =>  {
         url={item.html_url}
         description={item.description}
         created={item.created_at}  />
-        { item.owner && <Avatar image={item.owner.avatar_url} name={item.owner.login} link={item.owner.html_url} position="bottom" /> }
+        { item.owner && <UserProfile image={item.owner.avatar_url} name={item.owner.login} link={item.owner.html_url} position="bottom" /> }
     </>
   )
 }

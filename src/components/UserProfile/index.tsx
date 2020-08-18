@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { AvatarProps, StyledAvatarLink, StyledImageProp } from "../../@types/components";
+import { UserProfileProps, StyledUserProfileLink, StyledImageProp } from "../../@types/components";
 import Placeholder from "../../assets/icons/profilePlaceholder.svg";
 
-const Avatar = ({ image, name, link, position }: AvatarProps) => {
+const UserProfile = ({ image, name, link, position }: UserProfileProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleImageLoaded = () => {
@@ -11,31 +11,38 @@ const Avatar = ({ image, name, link, position }: AvatarProps) => {
   };
 
   return (
-    <AvatarHeader>
-      <AvatarLink position={position}>
-        <AvatarImageWrapper position={position}>
+    <UserProfileHeader>
+      <UserProfileLink position={position}>
+        <UserProfileImageWrapper position={position}>
           <PlaceholderImage src={Placeholder} loaded={imageLoaded} />
-          <AvatarImage
+          <UserProfileImage
             src={image}
             alt={name}
             loaded={imageLoaded}
             onLoad={handleImageLoaded}
           />
-        </AvatarImageWrapper>
-        <AvatarName>{name}</AvatarName>
-        <AvatarFollow href={link} target="_blank">
+        </UserProfileImageWrapper>
+        <UserProfileName>{name}</UserProfileName>
+        <UserProfileFollow href={link} target="_blank">
           follow
-        </AvatarFollow>
-      </AvatarLink>
-    </AvatarHeader>
+        </UserProfileFollow>
+      </UserProfileLink>
+    </UserProfileHeader>
   );
 }
 
-const AvatarHeader = styled.header`
+const ellipsis = () => `
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+
+const UserProfileHeader = styled.header`
   width: 100%;
 `;
 
-const AvatarLink = styled.div<StyledAvatarLink>`
+const UserProfileLink = styled.div<StyledUserProfileLink>`
   text-decoration: none;
   display: block;
   padding: 0;
@@ -49,26 +56,30 @@ const AvatarLink = styled.div<StyledAvatarLink>`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      ${AvatarImageWrapper} {
+      ${UserProfileImageWrapper} {
         width: 32px;
         height: 32px;
         margin: 0;
       }
-      ${AvatarFollow} {
+      ${UserProfileFollow} {
         margin: 0;
         max-width: 60px;
+      }
+      ${UserProfileName} {
+        max-width: 100px;
+        ${ellipsis()}
       }
     `}
 `;
 
-const AvatarImageWrapper = styled.div<StyledAvatarLink>`
+const UserProfileImageWrapper = styled.div<StyledUserProfileLink>`
   position: relative;
   width: 75px;
   height: 75px;
   margin: 0 auto;
 `;
 
-const AvatarImage = styled.img<StyledImageProp>`
+const UserProfileImage = styled.img<StyledImageProp>`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -86,7 +97,7 @@ const AvatarImage = styled.img<StyledImageProp>`
     `}
 `;
 
-const PlaceholderImage = styled(AvatarImage)`
+const PlaceholderImage = styled(UserProfileImage)`
   opacity: 1;
   ${(props) =>
     props.loaded &&
@@ -95,13 +106,13 @@ const PlaceholderImage = styled(AvatarImage)`
     `}
 `;
 
-const AvatarName = styled.p`
+const UserProfileName = styled.p`
   margin: 12px 0;
   text-align: center;
   font-weight: bold;
 `;
 
-const AvatarFollow = styled.a`
+const UserProfileFollow = styled.a`
   font-size: ${({theme}) => theme.fontSize.small};
   font-weight: bold;
   background: ${({ theme }) => theme.color.green};
@@ -117,4 +128,4 @@ const AvatarFollow = styled.a`
   }
 `;
 
-export default Avatar;
+export default UserProfile;

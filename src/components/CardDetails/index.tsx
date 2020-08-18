@@ -108,6 +108,10 @@ const Description = styled.p`
 const DetailsItem = styled.p<StyledDetailsProps>`
   margin: 0 0 8px;
   font-size: ${({theme}) => theme.fontSize.small};
+  span {
+    display: inline-block;
+    height: 18px;
+  }
   ${(props) =>
     props.status === "open" &&
     css`
@@ -143,6 +147,7 @@ const Footer = styled.div`
   padding: 4px 0;
   display: flex;
   justify-content: start;
+  height: 25px;
 `;
 
 const Badge = styled.div`

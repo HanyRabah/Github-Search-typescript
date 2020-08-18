@@ -7,16 +7,16 @@ export interface LayoutProps extends Props<ReactNode> {
   emptyKeyword?: boolean
 }
 /**
- * Avatar Component Types
+ * UserProfile Component Types
  */
-export interface AvatarProps {
+export interface UserProfileProps {
   image: string;
   name: string;
   link: string;
   position?: string;
 }
 
-export interface StyledAvatarLink {
+export interface StyledUserProfileLink {
   position?: string;
 }
 

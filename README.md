@@ -12,8 +12,13 @@
 Allows the users to search the `users` or `repositories` or `issues` on GitHub. 
 Using Github New Api https://docs.github.com/en/rest
 
-The App search users, repos, issues and cache they search query in the localstorage with the result using redux and redux persist.
+The App search users, repos, issues and cache search query in the localstorage with the result using redux and redux persist.
 
+When user start typing and characters exceded 3 characters it the app will start changing the url 
+to the category and keyword and then the Home page will hydrate the data from Url and start checking 
+if the data already has been searched for before will recall it from localstorage provided by redux 
+persist, if not will fire axios call to call github Api and return the data then List component will
+take the data and category to decide to render which component.
 
 # Used Stack
 Created by `Create React App` with Typescript
@@ -25,6 +30,9 @@ Created by `Create React App` with Typescript
 
 
 # Development decisions
+
+was thinking to implement Redux saga to listen to state change and fire the dispatch but it wasn't in 
+the requirements.
 
 <b>Why create react app</b>
 create react app prepare everything to start modern single page with react 
@@ -43,6 +51,21 @@ while sometimes we need to write some logic.
 to Seperate the concern of coding by creating service which responsible only to fetch the data
 and then the component will manage the request.
 
+<b>User Profile</b>
+doesn't have location or enough information to show as per the new API implementation.
+so I went with only showing the name, image and follow link aslo I used the same user Profile 
+in repos and issues but with a flag to change the layout.
+
+<b>404</b>
+Error Page if the path provided is not the right one
+
+<b>Edge Cases</b>
+All edge cases has been covered 
+- long text
+- empty keyword data will not recall the api will fetch it from localstorage
+- deleting the keyword 
+- etc..
+
 
 # Folder Structure 
 
@@ -53,7 +76,7 @@ and then the component will manage the request.
   ├── assets          # Contains Logo and icons
   ├── constansts      # Global constats
   ├── components      # All Components 
-  │   ├── Avatar
+  │   ├── UserProfile
   │   ├── Card
   │   ├── CardDetails
   │   ├── Header
@@ -99,7 +122,7 @@ yarn test
 
 
 # Demo
-https://git-searcher-typescript.vercel.app/
+https://github-searcher-typescript.vercel.app/
 
 
 # Future Enhancement
