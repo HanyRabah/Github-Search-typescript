@@ -6,14 +6,15 @@ import ListItem from "../ListItem";
 
 const List: React.FC<ListItemProps> = (props: ListItemProps) => {
   const { data, category, loading, empty, failed, errorMessage } = props;
+
   return (
     <>
-      {data && category &&
+      {data && 
       <Wrapper aria-label="search-output">
-        {empty && <Info>No Data Found!</Info>}
-        {loading && !empty && <Loader />}
-        {failed && <Alert>{errorMessage}</Alert>}
-        {!loading && !empty && data &&  <ListItem data={data} category={category} />}
+        {empty && !data.length && <Info>No Data Found!</Info>}
+        {loading && <Loader />}
+        {failed && !data.length && <Alert>{errorMessage}</Alert>}
+        {!loading && data.length > 0 &&  <ListItem data={data} category={category} />}
       </Wrapper>
     }
     </>

@@ -9,26 +9,24 @@ import {
   fetchDataFailed,
   fetchDataLoading,
   setEmptyData,
-  setCachedData,
-  clearStaus,
+  clearStauts
 } from "../store/actions";
 import fetchData from "../service";
 import { getObjectFromString }  from '../utils'
 
 const Home: React.FC = () => {
-  const [listData, setListData] = useState([]);
+  const [data, setData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const status = useSelector((state: AppState) => state.status);
-  const stateData = useSelector((state: AppState) => state.data);
+  const cachedData = useSelector((state: AppState) => state.data);
   const { search } = useLocation();
   const { category, keyword } = getObjectFromString(search);
   const debouncedKeyword = useDebounce(keyword, 300);
-  const debouncedCategory = useDebounce(category, 300);
   const dispatch = useDispatch();
 
   const handleSearchRequest = async () => {
     dispatch(fetchDataLoading());
-    const data = await fetchData(keyword, category)
+    return await fetchData(keyword, category)
       .then((res) => {
         setErrorMessage("");
         dispatch(fetchDataSuccess({ [`${keyword}-${category}`]: res.items }));
@@ -39,8 +37,6 @@ const Home: React.FC = () => {
         setErrorMessage(error.message);
         return [];
       });
-
-    return data;
   };
 
   const checkEmptyData = (count: number) => {
@@ -51,30 +47,37 @@ const Home: React.FC = () => {
     return false;
   };
 
+  const isDataCached = (key: string) => {
+    if(cachedData[key]){
+      setData(cachedData[key]);
+      checkEmptyData(cachedData[key].length);
+      return true;
+    }
+    return false;
+  }
+
   useEffect(() => {
-    const key = `${debouncedKeyword}-${debouncedCategory}`;
     const handleSearch = async () => {
-      const data: any = await handleSearchRequest();
-      setListData(data);
+      const res: any = await handleSearchRequest();
+      setData(res);
     };
 
-    if (!debouncedKeyword || !debouncedCategory) {
-      dispatch(clearStaus());
-      setListData([]);
+    if (!debouncedKeyword || !category) {
+      //if(status !== RquestStatus.Pending){
+        dispatch(clearStauts());
+      //}
+        setData([]);
       return;
     }
 
-    if (stateData[key]) {
-      setListData(stateData[key]);
-      dispatch(setCachedData());
-      checkEmptyData(stateData[key].length);
-    } else {
+    if (!isDataCached(`${debouncedKeyword}-${category}`)) {
       handleSearch();
     }
-  }, [debouncedKeyword, debouncedCategory]);
+
+  }, [debouncedKeyword, category]);
 
   return (
-    <Layout emptyKeyword={listData.length < 1}>
+    <Layout emptyKeyword={data.length < 1}>
       <SearchBox
         category={category}
         keyword={keyword}
@@ -84,7 +87,7 @@ const Home: React.FC = () => {
         empty={status === RquestStatus.Empty}
         failed={status === RquestStatus.Failure}
         errorMessage={errorMessage}
-        data={listData}
+        data={data}
         category={category}
       />
     </Layout>

@@ -129,3 +129,6 @@ https://github-searcher-typescript.vercel.app/
 
 - Write more unit test
 - Write Cypress test
+- UI enhancment
+- Performance enhanching ( Speed Index and Time to Interactive, dns-prefetch )
+- Clear Localstorage after specific time

@@ -5,7 +5,6 @@ import {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_LOADING,
   FETCH_DATA_FAILED,
-  CACHED_DATA,
   EMPTY_DATA,
   CLEAR_STATUS
 } from "../actions";
@@ -26,8 +25,6 @@ const reducer = (state: AppState = initialState, action: AnyAction) => {
       return { ...state, status: RquestStatus.Empty };
     case FETCH_DATA_FAILED:
       return { ...state, status: RquestStatus.Failure };
-    case CACHED_DATA:
-      return { ...state, status: RquestStatus.Success };
     case CLEAR_STATUS:
       return { ...state, status: RquestStatus.Pending };
     default:
