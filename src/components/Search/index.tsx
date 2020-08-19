@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import SearchInput from "../TextInput";
 import Dropdown from "../Dropdown";
-import { DROPDOWN_OPTIONS } from "../../constants";
+import { DROPDOWN_OPTIONS, MIN_INPUT_LENGTH } from "../../constants";
 import { SearchBoxProps } from '../../@types/components'
 
 const SearchBox: React.FC<SearchBoxProps> = ({ keyword, category }: SearchBoxProps) => {
@@ -11,12 +11,11 @@ const SearchBox: React.FC<SearchBoxProps> = ({ keyword, category }: SearchBoxPro
   const [selectValue, setSelectValue] = useState(category || "users");
   const [validInput, setValidInput] = useState(true);
   const history = useHistory();
-  const inputMinLength = 3;
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const searchQuery = event.target.value;
     setInputValue(searchQuery);
-    if(searchQuery.length > 0 && searchQuery.length < inputMinLength) {
+    if(searchQuery.length > 0 && searchQuery.length < MIN_INPUT_LENGTH) {
       setValidInput(false);
     } else {
       setValidInput(true);
@@ -42,7 +41,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ keyword, category }: SearchBoxPro
           aria-label="search-input"
           value={inputValue}
           onChange={handleInputChange}
-          minLength={inputMinLength}
+          minLength={MIN_INPUT_LENGTH}
           placeholder="Start typing to search.."
           valid={validInput}
           autoComplete="off"

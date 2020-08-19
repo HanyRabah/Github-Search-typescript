@@ -1,3 +1,4 @@
+export const MIN_INPUT_LENGTH = 3;
 export const DROPDOWN_OPTIONS = [
   { text: "Users", value: "users" },
   { text: "Repositories", value: "repositories" },
