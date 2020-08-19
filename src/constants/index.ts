@@ -5,7 +5,7 @@ export const DROPDOWN_OPTIONS = [
   { text: "Issues", value: "issues" },
 ]
 
-export enum RquestStatus {
+export enum RequestStatus {
   Pending,
   Loading,
   Success,

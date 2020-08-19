@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../@types/state";
-import { RquestStatus } from "../constants";
+import { RequestStatus } from "../constants";
 import { Layout, SearchBox, List, useDebounce } from "../components";
 import {
   fetchDataSuccess,
   fetchDataFailed,
   fetchDataLoading,
   setEmptyData,
-  clearStauts
+  clearStatus
 } from "../store/actions";
 import fetchData from "../service";
 import { getObjectFromString }  from '../utils'
@@ -17,8 +17,7 @@ import { getObjectFromString }  from '../utils'
 const Home: React.FC = () => {
   const [data, setData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const status = useSelector((state: AppState) => state.status);
-  const cachedData = useSelector((state: AppState) => state.data);
+  const { data: cachedData, status } = useSelector((state: AppState)  => state);
   const { search } = useLocation();
   const { category, keyword } = getObjectFromString(search);
   const debouncedKeyword = useDebounce(keyword, 300);
@@ -63,7 +62,7 @@ const Home: React.FC = () => {
     };
 
     if (!debouncedKeyword || !category) {
-        dispatch(clearStauts());
+        dispatch(clearStatus());
         setData([]);
       return;
     }
@@ -77,9 +76,9 @@ const Home: React.FC = () => {
         keyword={keyword}
       />
       <List
-        loading={status === RquestStatus.Loading}
-        empty={status === RquestStatus.Empty}
-        failed={status === RquestStatus.Failure}
+        loading={status === RequestStatus.Loading}
+        empty={status === RequestStatus.Empty}
+        failed={status === RequestStatus.Failure}
         errorMessage={errorMessage}
         data={data}
         category={category}

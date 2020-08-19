@@ -1,7 +1,8 @@
+import RequestStatus from '../constants';
 /**
  * Redux Inital State Types
  */
 export interface AppState {
-  status: RquestStatus;
+  status: RequestStatus;
   data: any[{ [key: string]: Array[] }];
 }
