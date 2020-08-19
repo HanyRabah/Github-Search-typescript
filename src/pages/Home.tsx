@@ -63,9 +63,7 @@ const Home: React.FC = () => {
     };
 
     if (!debouncedKeyword || !category) {
-      //if(status !== RquestStatus.Pending){
         dispatch(clearStauts());
-      //}
         setData([]);
       return;
     }

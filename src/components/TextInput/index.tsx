@@ -4,12 +4,12 @@ import { TextInputProps } from "../../@types/components";
 
 
 const SearchInput = (props:TextInputProps) => {
-  const { valid, ...rest } = props;
+  const { valid, minLength, ...rest } = props;
   return (
     <InputWrapper>
       <Input {...rest} />
       {!valid && (
-        <InputValidety>Text length should not be less than 3</InputValidety>
+        <InputValidety>Text should be more than { minLength } characters</InputValidety>
       )}
     </InputWrapper>
   );

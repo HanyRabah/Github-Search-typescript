@@ -11,11 +11,12 @@ const SearchBox: React.FC<SearchBoxProps> = ({ keyword, category }: SearchBoxPro
   const [selectValue, setSelectValue] = useState(category || "users");
   const [validInput, setValidInput] = useState(true);
   const history = useHistory();
+  const inputMinLength = 3;
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const searchQuery = event.target.value;
     setInputValue(searchQuery);
-    if(searchQuery.length > 0 && searchQuery.length < 4) {
+    if(searchQuery.length > 0 && searchQuery.length < inputMinLength) {
       setValidInput(false);
     } else {
       setValidInput(true);
@@ -30,7 +31,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ keyword, category }: SearchBoxPro
   };
  
   const setUrlQuery = (keyword: string, category: string) => {
-    keyword.length < 4 ? history.push(`/`) : history.push(`?category=${category}&keyword=${keyword}`);
+    keyword.length < 3 ? history.push(`/`) : history.push(`?category=${category}&keyword=${keyword}`);
   }
 
   return (
@@ -41,7 +42,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ keyword, category }: SearchBoxPro
           aria-label="search-input"
           value={inputValue}
           onChange={handleInputChange}
-          minLength={4}
+          minLength={inputMinLength}
           placeholder="Start typing to search.."
           valid={validInput}
           autoComplete="off"
