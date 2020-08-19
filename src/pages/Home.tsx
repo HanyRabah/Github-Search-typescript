@@ -47,13 +47,13 @@ const Home: React.FC = () => {
     return false;
   };
 
-  const isDataCached = (key: string) => {
+  const isDataCached = (key: string, cb: Function) => {
     if(cachedData[key]){
       setData(cachedData[key]);
       checkEmptyData(cachedData[key].length);
-      return true;
+      return;
     }
-    return false;
+    return cb();
   }
 
   useEffect(() => {
@@ -67,11 +67,7 @@ const Home: React.FC = () => {
         setData([]);
       return;
     }
-
-    if (!isDataCached(`${debouncedKeyword}-${category}`)) {
-      handleSearch();
-    }
-
+    isDataCached(`${debouncedKeyword}-${category}`, handleSearch)
   }, [debouncedKeyword, category]);
 
   return (
